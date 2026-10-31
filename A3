@@ -1,1 +1,38 @@
 its a3 ml
+
+# Assignment 3A: SVM for handwritten digit classification (0-9)
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+import matplotlib.pyplot as plt
+
+# Load Dataset
+digits = load_digits()
+
+# Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    digits.data, digits.target,
+    test_size=0.2, random_state=42
+)
+
+# Train the Model
+model = SVC()
+model.fit(X_train, y_train)
+
+# Predict on Test Data
+pred = model.predict(X_test)
+
+# Display Accuracy
+print("Accuracy:", model.score(X_test, y_test))
+
+# Display Sample Digit Images
+fig, ax = plt.subplots(1, 5)
+
+for i in range(5):
+    ax[i].imshow(
+        X_test[i].reshape(8, 8), cmap="gray"
+    )
+    ax[i].set_title(f"Predicted: {pred[i]}")
+    ax[i].axis("off")
+
+plt.show()
