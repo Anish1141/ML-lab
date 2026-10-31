@@ -46,3 +46,108 @@ for m in [LinearRegression(), Ridge(), Lasso()]:
     plt.ylabel("Predicted")
     plt.title(type(m).__name__)
     plt.show()
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CODE EXPLAINED
+1. Import libraries
+   pandas loads and manipulates the dataset; matplotlib draws graphs; train_test_split splits data; LinearRegression, Ridge and Lasso are regression models; r2_score and mean_squared_error evaluate predictions.
+
+2. df = pd.read_csv("uber.csv").dropna()
+   Reads the Uber dataset and removes rows containing missing values.
+
+3. df.drop(columns=["key", "pickup_datetime", "Unnamed: 0"], errors="ignore")
+   Removes columns not used as model features. errors="ignore" avoids an error if a listed column is absent.
+
+4. q1, q3 = df.fare_amount.quantile([0.25, 0.75])
+   Finds the first quartile (Q1) and third quartile (Q3) of fare_amount.
+
+5. df[df.fare_amount.between(...)]
+   Removes fare outliers using the IQR rule. IQR = Q3 - Q1. The accepted range is Q1 - 1.5 x IQR to Q3 + 1.5 x IQR.
+
+6. df.corr(numeric_only=True)["fare_amount"].plot(...)
+   Calculates correlations between numeric columns and fare_amount, then displays a bar graph.
+
+7. X = df.drop("fare_amount", axis=1)
+   Selects all remaining columns as input features.
+
+8. y = df.fare_amount
+   Selects fare_amount as the target variable to predict.
+
+9. train_test_split(X, y, test_size=0.2, random_state=42)
+   Splits data into 80% training and 20% testing. random_state=42 makes the split repeatable. Here a=X_train, b=X_test, c=y_train, d=y_test.
+
+10. for m in [LinearRegression(), Ridge(), Lasso()]:
+    Repeats training and evaluation for all three regression models.
+
+11. m.fit(a, c)
+    Trains the current model using training features and fare values.
+
+12. p = m.predict(b)
+    Predicts fare amounts for the test features.
+
+13. type(m).__name__
+    Displays the current model's name.
+
+14. r2_score(d, p)
+    Calculates R2 by comparing actual and predicted fares. A value closer to 1 generally indicates a better fit.
+
+15. mean_squared_error(d, p) ** 0.5
+    Calculates RMSE by taking the square root of MSE. Lower RMSE means smaller prediction errors.
+
+16. plt.scatter(d, p)
+    Plots actual fare values against predicted fare values for the current model.
+
+17. plt.xlabel(), plt.ylabel(), plt.title(), plt.show()
+    Labels and displays each model's scatter plot.
+
+PIPELINE:
+Load Uber dataset -> remove missing values and unused columns -> remove fare outliers using IQR -> inspect correlation -> select features and target -> split data -> train three regression models -> evaluate using R2 and RMSE -> plot predictions.
+
+OUTPUT TO EXPECT:
+A correlation bar graph, R2 score and RMSE for Linear Regression, Ridge and Lasso, and one scatter plot for each model. Exact scores depend on the dataset.
+
+VIVA Q&A
+Q: What is regression?
+A: A supervised learning task used to predict a continuous numerical value.
+
+Q: What is the target variable?
+A: fare_amount, because the program predicts the Uber fare.
+
+Q: What is Linear Regression?
+A: It models the relationship between input variables and a continuous target using a linear equation.
+
+Q: What is Ridge Regression?
+A: Linear Regression with L2 regularization, which penalizes large coefficient values.
+
+Q: What is Lasso Regression?
+A: Linear Regression with L1 regularization. It can shrink some coefficients to zero.
+
+Q: What is regularization?
+A: A penalty added to a model to control complexity and help reduce overfitting.
+
+Q: What is IQR?
+A: Interquartile range, calculated as Q3 - Q1. It is used here to identify possible outliers.
+
+Q: Why split the dataset?
+A: To train on one portion and evaluate on unseen test data.
+
+Q: What is R2 score?
+A: It measures how much of the target variation is explained by the model. Higher is generally better.
+
+Q: What is RMSE?
+A: Root Mean Squared Error; it measures prediction error in the target's units. Lower is better.
+
+SHORT VIVA ANSWER:
+"This program predicts Uber fares using Linear, Ridge, and Lasso Regression. It cleans the dataset, removes fare outliers using IQR, splits the data, trains each model, and compares them using R2 score and RMSE."
+
+EXTRA QUESTIONS
+Q: Classification vs regression?
+A: Classification predicts categories; regression predicts continuous numerical values.
+
+Q: What does test_size=0.2 mean?
+A: 20% of the data is used for testing and 80% for training.
+
+Q: Why random_state=42?
+A: It makes the random split reproducible.
+
+Q: What does a good actual-versus-predicted plot look like?
+A: Points should be close to the diagonal where predicted values equal actual values. This code does not draw that reference line.
