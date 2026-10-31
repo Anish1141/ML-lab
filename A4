@@ -1,11 +1,12 @@
 # Assignment 4A: K-Means clustering on Iris, number of clusters via Elbow method
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
 from sklearn.cluster import KMeans
 
-# Load Dataset
-df = pd.read_csv("Iris.csv")
-X = df.iloc[:, 1:5]
+# Load Dataset (built-in)
+df = load_iris(as_frame=True).frame
+X = df.iloc[:, 0:4]
 
 # Elbow Method (Find Optimal K)
 wcss = [
