@@ -1,5 +1,3 @@
-its a5 ml
-
 # Assignment 5A: Random Forest classifier to predict the safety (acceptability) of a car
 import pandas as pd
 import matplotlib.pyplot as plt
