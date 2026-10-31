@@ -32,3 +32,96 @@ plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.title("PCA")
 plt.show()
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CODE EXPLAINED
+1. Import libraries
+   pandas handles tabular data; matplotlib creates graphs; load_wine loads the built-in dataset; StandardScaler standardizes features; PCA performs dimensionality reduction.
+
+2. wine = load_wine(as_frame=True)
+   Loads the Wine dataset as a pandas-friendly object. It contains chemical measurements of wine samples.
+
+3. X, y = wine.data, wine.target
+   X contains the input features and y contains the wine class labels.
+
+4. print(X.head())
+   Displays the first five rows of the feature dataset.
+
+5. X = StandardScaler().fit_transform(X)
+   Standardizes each feature to mean 0 and standard deviation 1. Scaling matters because PCA is affected by feature magnitudes.
+
+6. pca = PCA(n_components=2)
+   Creates a PCA model that keeps two principal components.
+
+7. result = pca.fit_transform(X)
+   Learns the principal components and transforms the original 13 features into two new features, PC1 and PC2.
+
+8. print("PCA Result:", result)
+   Displays the transformed two-dimensional data.
+
+9. pca.explained_variance_ratio_
+   Shows the proportion of total variance explained by each principal component.
+
+10. sum(pca.explained_variance_ratio_)
+    Calculates the total proportion of variance retained by the two components.
+
+11. X.shape[1] and result.shape[1]
+    Display the original feature count (13) and reduced feature count (2).
+
+12. plt.scatter(result[:, 0], result[:, 1], c=y)
+    Plots PC1 against PC2. The colour represents the wine class.
+
+13. plt.xlabel(), plt.ylabel(), plt.title(), plt.show()
+    Add labels and a title, then display the scatter plot.
+
+PIPELINE:
+Load Wine dataset -> separate features and labels -> standardize features -> apply PCA -> display explained variance -> plot the two principal components.
+
+OUTPUT TO EXPECT:
+First five dataset rows, PCA-transformed values, explained variance ratios, total variance retained, original feature count (13), reduced feature count (2), and a scatter plot.
+
+VIVA Q&A
+Q: What is PCA?
+A: Principal Component Analysis is an unsupervised dimensionality-reduction technique that transforms original features into fewer uncorrelated principal components.
+
+Q: Why is PCA used?
+A: To reduce features, remove redundancy, speed up processing, and help visualize high-dimensional data.
+
+Q: What is dimensionality reduction?
+A: Reducing the number of input features while preserving important information.
+
+Q: What are principal components?
+A: New features formed as combinations of original features, ordered by the variance they explain.
+
+Q: Why standardize before PCA?
+A: Features with larger scales could dominate PCA. Standardization puts features on a comparable scale.
+
+Q: What does n_components=2 mean?
+A: It asks PCA to represent the data using two principal components.
+
+Q: What is explained variance ratio?
+A: The proportion of total data variance explained by a principal component.
+
+Q: Is PCA supervised or unsupervised?
+A: Unsupervised; class labels are not used to find the components.
+
+Q: Does PCA select original features?
+A: No. It creates new features by combining the original ones.
+
+Q: What is a limitation of PCA?
+A: Components may be difficult to interpret, and reducing dimensions can lose information.
+
+SHORT VIVA ANSWER:
+"This program loads the Wine dataset, standardizes its 13 features, and applies PCA to reduce them to two principal components. It displays the transformed data and explained variance, then plots the components to visualize the wine classes."
+
+EXTRA QUESTIONS
+Q: Feature selection vs feature extraction?
+A: Feature selection keeps some original features. Feature extraction creates new features, as PCA does.
+
+Q: What is covariance?
+A: It indicates how two variables change together.
+
+Q: What is the first principal component?
+A: The direction that captures the maximum possible variance.
+
+Q: Can PCA be used for visualization?
+A: Yes. It can reduce data to two or three dimensions for plotting.
