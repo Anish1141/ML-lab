@@ -1,1 +1,49 @@
 its a2 ml
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.metrics import r2_score, mean_squared_error
+
+# Load and Preprocess Dataset
+df = pd.read_csv("uber.csv").dropna()
+df = df.drop(columns=["key", "pickup_datetime",
+                      "Unnamed: 0"], errors="ignore")
+
+# Identify and Remove Outliers
+q1, q3 = df.fare_amount.quantile([0.25, 0.75])
+df = df[df.fare_amount.between(
+    q1 - 1.5 * (q3 - q1),
+    q3 + 1.5 * (q3 - q1)
+)]
+
+# Check Correlation
+df.corr(numeric_only=True)["fare_amount"].plot(
+    kind="bar", title="Correlation"
+)
+plt.show()
+
+# Select Features and Target
+X = df.drop("fare_amount", axis=1)
+y = df.fare_amount
+
+# Split Dataset
+a, b, c, d = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Apply and Evaluate Regression Models
+for m in [LinearRegression(), Ridge(), Lasso()]:
+    m.fit(a, c)
+    p = m.predict(b)
+
+    print(type(m).__name__,
+          "R2:", r2_score(d, p),
+          "RMSE:", mean_squared_error(d, p) ** 0.5)
+
+    plt.scatter(d, p)
+    plt.xlabel("Actual")
+    plt.ylabel("Predicted")
+    plt.title(type(m).__name__)
+    plt.show()
