@@ -1,5 +1,3 @@
-its a4 ml
-
 # Assignment 4A: K-Means clustering on Iris, number of clusters via Elbow method
 import pandas as pd
 import matplotlib.pyplot as plt
