@@ -1,5 +1,3 @@
-its a3 ml
-
 # Assignment 3A: SVM for handwritten digit classification (0-9)
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
