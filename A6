@@ -1,5 +1,3 @@
-its a6 ml
-
 # Assignment 6A: Reinforcement Learning (Q-learning) - agent explores a maze
 import numpy as np
 import matplotlib.pyplot as plt
