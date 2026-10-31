@@ -34,3 +34,102 @@ for i in range(5):
     ax[i].axis("off")
 
 plt.show()
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CODE EXPLAINED
+1. Import libraries
+   load_digits loads the dataset; train_test_split divides data; SVC implements Support Vector Classification; matplotlib displays images.
+
+2. digits = load_digits()
+   Loads the built-in handwritten digits dataset. Each image is 8 x 8 pixels.
+
+3. digits.data and digits.target
+   digits.data contains 64 flattened pixel values per image. digits.target contains the correct digit labels from 0 to 9.
+
+4. train_test_split(..., test_size=0.2, random_state=42)
+   Splits data into 80% training and 20% testing. X_train and X_test contain image features; y_train and y_test contain labels.
+
+5. model = SVC()
+   Creates an SVM classifier using scikit-learn's default settings.
+
+6. model.fit(X_train, y_train)
+   Trains the SVM model using training images and their correct labels.
+
+7. pred = model.predict(X_test)
+   Predicts the digit class for every test image.
+
+8. model.score(X_test, y_test)
+   Calculates classification accuracy on the test data.
+
+9. fig, ax = plt.subplots(1, 5)
+   Creates five subplot areas arranged in one row.
+
+10. for i in range(5):
+    Repeats the image-display instructions for the first five test samples.
+
+11. X_test[i].reshape(8, 8)
+    Converts 64 pixel values back into an 8 x 8 image.
+
+12. ax[i].imshow(..., cmap="gray")
+    Displays the digit image in grayscale.
+
+13. ax[i].set_title(f"Predicted: {pred[i]}")
+    Displays the predicted digit above each image.
+
+14. ax[i].axis("off")
+    Hides axis markings.
+
+15. plt.show()
+    Displays the five sample digit images.
+
+PIPELINE:
+Load digits dataset -> split features and labels -> train-test split -> create SVM model -> train -> predict test digits -> calculate accuracy -> display five sample predictions.
+
+OUTPUT TO EXPECT:
+Test accuracy and five handwritten digit images with predicted labels. A displayed prediction may be incorrect; accuracy is calculated over all test samples.
+
+VIVA Q&A
+Q: What is SVM?
+A: Support Vector Machine is a supervised learning algorithm that finds a decision boundary to separate classes.
+
+Q: What is SVC?
+A: Support Vector Classifier, scikit-learn's SVM implementation for classification.
+
+Q: Which dataset is used?
+A: The built-in handwritten digits dataset from scikit-learn.
+
+Q: How many classes are present?
+A: Ten classes, representing digits 0 to 9.
+
+Q: What are the features?
+A: The 64 pixel intensity values of each 8 x 8 image.
+
+Q: What is a support vector?
+A: A training point closest to the decision boundary that helps determine its position.
+
+Q: What is a kernel?
+A: A kernel helps SVM represent relationships in a feature space so it can form suitable decision boundaries.
+
+Q: Why use train_test_split?
+A: To train on one portion and evaluate on separate unseen data.
+
+Q: What is accuracy?
+A: Correct predictions divided by the total number of predictions.
+
+Q: Why reshape to 8 x 8?
+A: The model uses flattened vectors, but reshaping allows the pixel values to be displayed as an image.
+
+SHORT VIVA ANSWER:
+"This program classifies handwritten digits from 0 to 9 using an SVM classifier. It loads 8 x 8 digit images, splits them into training and testing sets, trains the model, predicts test labels, calculates accuracy, and displays five sample predictions."
+
+EXTRA QUESTIONS
+Q: Is SVM supervised or unsupervised?
+A: Supervised, because it learns from labelled training data.
+
+Q: What is the difference between SVC and SVR?
+A: SVC predicts class labels; SVR predicts continuous numerical values.
+
+Q: What is overfitting?
+A: When a model learns training data too closely and performs poorly on unseen data.
+
+Q: What does cmap="gray" do?
+A: It displays an image using shades of gray.
