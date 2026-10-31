@@ -1,1 +1,46 @@
 its a6 ml
+
+# Assignment 6A: Reinforcement Learning (Q-learning) - agent explores a maze
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define Maze Environment
+maze = np.array([
+    [0, 0, 0],
+    [1, 0, 1],
+    [0, 0, 2]
+])
+
+# Initialize Q-table and Actions
+Q = np.zeros((9, 4))
+actions = [-3, 3, -1, 1]  # up, down, left, right
+
+# Train using Q-Learning
+for _ in range(500):
+    s = 0  # start position
+
+    for _ in range(20):
+        a = np.random.randint(4)  # choose random action
+        n = s + actions[a]        # next state
+
+        if n not in range(9) or maze.flat[n] == 1:
+            continue  # invalid move
+
+        r = 100 if n == 8 else -1  # reward
+
+        Q[s, a] += 0.1 * (
+            r + 0.9 * max(Q[n]) - Q[s, a]
+        )
+
+        s = n  # move to next state
+
+        if s == 8:
+            break  # goal reached
+
+# Visualize Maze
+plt.imshow(maze, cmap="viridis")
+plt.title("Maze")
+plt.show()
+
+# Print Result
+print("Training Completed!")
