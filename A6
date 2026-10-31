@@ -42,3 +42,130 @@ plt.show()
 
 # Print Result
 print("Training Completed!")
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CODE EXPLAINED
+1. import numpy as np
+   NumPy creates and manipulates arrays and generates random action choices.
+
+2. import matplotlib.pyplot as plt
+   Matplotlib visualizes the maze.
+
+3. maze = np.array([...])
+   Defines a 3 x 3 maze:
+   - 0 represents an empty cell.
+   - 1 represents an obstacle.
+   - 2 represents the goal.
+   The start is state 0 (top-left); the goal is state 8 (bottom-right).
+
+4. Q = np.zeros((9, 4))
+   Creates a Q-table with 9 states and 4 possible actions per state. Initially all Q-values are zero.
+
+5. actions = [-3, 3, -1, 1]
+   Defines movement in a flattened 3 x 3 grid: -3=up, 3=down, -1=left, 1=right.
+
+6. for _ in range(500):
+   Runs 500 training episodes. An episode is one attempt to explore the maze.
+
+7. s = 0
+   Resets the agent to the starting state at the beginning of each episode.
+
+8. for _ in range(20):
+   Allows at most 20 action steps in each episode.
+
+9. a = np.random.randint(4)
+   Randomly selects one of the four actions. This is random exploration.
+
+10. n = s + actions[a]
+    Calculates the next state by adding the selected movement to the current state.
+
+11. if n not in range(9) or maze.flat[n] == 1:
+    Checks whether the next state is outside the maze or is an obstacle. If either is true, the move is skipped using continue.
+
+12. r = 100 if n == 8 else -1
+    Gives +100 when the agent reaches the goal. Every other valid move receives -1.
+
+13. Q[s, a] += 0.1 * (r + 0.9 * max(Q[n]) - Q[s, a])
+    Updates the Q-value using the Q-learning formula:
+    New Q = Old Q + alpha x (Reward + gamma x maximum future Q - Old Q).
+    alpha=0.1 is the learning rate; gamma=0.9 is the discount factor; max(Q[n]) is the best estimated future action value from the next state.
+
+14. s = n
+    Moves the agent to the next state after a valid move.
+
+15. if s == 8: break
+    Ends the current episode if the agent reaches the goal.
+
+16. plt.imshow(maze, cmap="viridis")
+    Displays the maze as a coloured grid.
+
+17. plt.title("Maze") and plt.show()
+    Adds the title and displays the maze.
+
+18. print("Training Completed!")
+    Prints a message after all training episodes finish.
+
+PIPELINE:
+Define maze -> initialize Q-table and actions -> start episode -> choose random action -> check move -> assign reward -> update Q-value -> repeat episodes -> display maze -> print completion message.
+
+OUTPUT TO EXPECT:
+A coloured 3 x 3 maze visualization and the message "Training Completed!". The code does not print the learned Q-table or show the agent's final route.
+
+IMPORTANT NOTE:
+This is a simplified Q-learning demonstration. The original code checks whether a state is inside the grid and whether it is an obstacle, but it does not check row boundaries separately. Therefore, moving left from the first column or right from the last column can incorrectly wrap to another row. Invalid moves are skipped without a Q-value update. The code demonstrates the basic Q-learning update but does not guarantee that the agent learns the shortest or best route.
+
+VIVA Q&A
+Q: What is Reinforcement Learning?
+A: A machine learning approach in which an agent interacts with an environment and receives rewards or penalties.
+
+Q: What is Q-learning?
+A: A model-free reinforcement learning algorithm that learns the value of taking an action in a state.
+
+Q: What is an agent?
+A: The learner or decision-maker that interacts with the environment.
+
+Q: What is an environment?
+A: The world in which the agent takes actions. Here, it is the maze.
+
+Q: What is a state?
+A: The agent's current position. The 3 x 3 maze has nine flattened states.
+
+Q: What is an action?
+A: A movement the agent can take: up, down, left or right.
+
+Q: What is a reward?
+A: Feedback from the environment. The goal gives +100 and other valid moves give -1.
+
+Q: What is a Q-table?
+A: A table storing estimated values for each action in each state.
+
+Q: What is learning rate alpha?
+A: It controls how much new information changes the existing Q-value. Here alpha=0.1.
+
+Q: What is discount factor gamma?
+A: It controls the importance of future rewards. Here gamma=0.9.
+
+Q: What is exploration?
+A: Trying actions to discover which ones lead to better rewards.
+
+Q: What is the goal state?
+A: State 8, the bottom-right cell of the maze.
+
+SHORT VIVA ANSWER:
+"This program demonstrates Q-learning in a 3 x 3 maze. The agent starts at state 0 and randomly selects actions. Valid moves receive rewards or penalties, and the Q-table is updated using the Q-learning formula. Training runs for 500 episodes, after which the maze is displayed."
+
+EXTRA QUESTIONS
+Q: What does model-free mean?
+A: The algorithm learns from experience without needing a complete model of the environment's transitions.
+
+Q: Exploration vs exploitation?
+A: Exploration tries new actions; exploitation chooses the action currently believed to give the best reward.
+
+Q: Why give a negative reward for ordinary moves?
+A: It encourages the agent to reach the goal in fewer steps.
+
+Q: What happens when the agent reaches the goal?
+A: It receives +100 and the current episode ends.
+
+Q: Does this program display the learned path?
+A: No. It displays the maze and completion message. The Q-table is updated internally but is not printed.
+
