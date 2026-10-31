@@ -1,1 +1,38 @@
 its a1 ml
+
+# Assignment 1A: PCA for dimensionality reduction on Wine dataset
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+
+# Load Dataset
+df = pd.read_csv(r"C:\Users\anish\OneDrive\Desktop\Datasets\ML\Wine.csv")
+print(df.head())
+
+# Separate Features and Target
+X = df.drop("Customer_Segment", axis=1)
+y = df["Customer_Segment"]
+
+# Scale the Data
+X = StandardScaler().fit_transform(X)
+
+# Apply PCA
+pca = PCA(n_components=2)
+result = pca.fit_transform(X)
+
+# Display Information
+print("PCA Result:\n", result)
+print("Explained Variance:",
+      pca.explained_variance_ratio_)
+print("Total Variance:",
+      sum(pca.explained_variance_ratio_))
+print("Original Features:", X.shape[1])
+print("Reduced Features:", result.shape[1])
+
+# Plot the Results
+plt.scatter(result[:, 0], result[:, 1], c=y)
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.title("PCA")
+plt.show()
