@@ -1,1 +1,46 @@
 its a5 ml
+
+# Assignment 5A: Random Forest classifier to predict the safety (acceptability) of a car
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Load Dataset
+df = pd.read_csv("car_evaluation.csv", header=None)
+
+df.columns = [
+    "buying", "maint", "doors", "persons",
+    "lug_boot", "safety", "class"
+]
+
+# Prepare Features and Labels
+X = pd.get_dummies(df.drop("class", axis=1))
+y = df["class"]
+
+# Split Dataset
+a, b, c, d = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Train the Model
+m = RandomForestClassifier().fit(a, c)
+
+# Predict on Test Data
+p = m.predict(b)
+
+# Evaluate Model
+print("Accuracy:", accuracy_score(d, p))
+
+# Visualizations
+y.value_counts().plot(
+    kind="bar", title="Car Classes"
+)
+plt.show()
+
+plt.scatter(d, p)
+plt.xlabel("Actual")
+plt.ylabel("Predicted")
+plt.title("Car Classification")
+plt.show()
