@@ -1,16 +1,14 @@
 # Assignment 1A: PCA for dimensionality reduction on Wine dataset
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.datasets import load_wine
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
-# Load Dataset
-df = pd.read_csv(r"C:\Users\anish\OneDrive\Desktop\Datasets\ML\Wine.csv")
-print(df.head())
-
-# Separate Features and Target
-X = df.drop("Customer_Segment", axis=1)
-y = df["Customer_Segment"]
+# Load Dataset (built-in)
+wine = load_wine(as_frame=True)
+X, y = wine.data, wine.target
+print(X.head())
 
 # Scale the Data
 X = StandardScaler().fit_transform(X)
