@@ -20,6 +20,7 @@ plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.title("PCA")
 plt.show()
+
 ML-2 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -44,6 +45,7 @@ for m in [LinearRegression(), Ridge(), Lasso()]:
     plt.ylabel("Predicted")
     plt.title(type(m).__name__)
     plt.show()
+
 ML-3
 # SVM Handwritten Digit Classification
 from sklearn.datasets import load_digits
@@ -66,6 +68,7 @@ ax[i].imshow(X_test[i].reshape(8, 8), cmap="gray")
 ax[i].set_title(f"Predicted: {pred[i]}")
 ax[i].axis("off")
 plt.show()
+
 ML-4 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -86,6 +89,7 @@ plt.xlabel("Sepal Length")
 plt.ylabel("Sepal Width")
 plt.title("K-Means Clustering")
 plt.show()
+
 ML-5
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -107,6 +111,7 @@ plt.xlabel("Actual")
 plt.ylabel("Predicted")
 plt.title("Car Classification")
 plt.show()
+
 ML-6 
 import numpy as np
 import matplotlib.pyplot as plt
